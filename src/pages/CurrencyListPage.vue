@@ -46,7 +46,7 @@ onMounted(() => {
 	margin: 20px 0;
 }
 .list {
-	width: 600px;
+	width: 1000px;
 	display: flex;
 	flex-direction: column;
 	margin: 0 auto;

@@ -15,8 +15,12 @@ const rating = ref(props.value > props.previousValue)
 	<div class="item">
 		<h4>{{ props.charCode }} / {{ props.name }}</h4>
 		<div class="value">
-			<span :class="rating ? 'top' : 'bottom'">{{ props.value }}</span>
-			<span :class="!rating ? 'top' : 'bottom'">{{ props.previousValue }}</span>
+			<span :class="rating ? 'top' : 'bottom'"
+				>{{ rating ? '▲' : '▼' }} {{ props.value }}
+			</span>
+			<span :class="!rating ? 'top' : 'bottom'"
+				>{{ !rating ? '▲' : '▼' }} {{ props.previousValue }}</span
+			>
 		</div>
 	</div>
 </template>

@@ -21,19 +21,26 @@ async function fetchCurrencies() {
 		currencies.value = Object.entries(response.data.Valute).map(
 			([, value]) => value,
 		)
-		rates.value = response.data.Valute
 	} catch (e) {
 		alert('Error fetch currencies')
 	}
 }
 
+async function fetchRates() {
+	try {
+		const response = await axios.get('https://www.cbr-xml-daily.ru/latest.js')
+
+		rates.value = response.data.rates
+	} catch (e) {
+		console.log(e)
+	}
+}
 const handleChangeFromCurrencyValue = value => {
 	if (value > 0) {
 		const result =
-			(value / rates.value[fromCurrency.value].Value) *
-			rates.value[toCurrency.value].Value
+			(value / rates.value[fromCurrency.value]) * rates.value[toCurrency.value]
 
-		toCurrencyValue.value = Number(result.toFixed(2))
+		toCurrencyValue.value = Number(result.toFixed(4))
 	}
 	if (value === 0) {
 		toCurrencyValue.value = 0
@@ -43,11 +50,9 @@ const handleChangeFromCurrencyValue = value => {
 const handleChangeToCurrencyValue = value => {
 	if (value > 0) {
 		const result =
-			(rates.value[fromCurrency.value].Value /
-				rates.value[toCurrency.value].Value) *
-			value
+			(rates.value[fromCurrency.value] / rates.value[toCurrency.value]) * value
 
-		fromCurrencyValue.value = Number(result.toFixed(2))
+		fromCurrencyValue.value = Number(result.toFixed(4))
 	}
 	if (value === 0) {
 		fromCurrencyValue.value = 0
@@ -61,6 +66,7 @@ watch([toCurrency, fromCurrency], () => {
 
 onMounted(() => {
 	fetchCurrencies()
+	fetchRates()
 })
 </script>
 
